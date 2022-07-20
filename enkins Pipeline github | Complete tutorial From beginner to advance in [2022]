@@ -1,0 +1,152 @@
+REff : https://naiveskill.com/jenkins-pipeline-github/
+
+
+Jenkins declarative Pipeline examples github
+Jenkins Pipeline github | Complete tutorial From beginner to advance in [2022]
+DevOps, Jenkins / 4 minutes of reading
+This is the third part of the Jenkins pipeline example. In this blog, we will learn about Jenkins Pipeline github.
+
+Table of Contents	
+Jenkins declarative Pipeline github example
+Jenkins pipeline github with credentials
+Jenkins github add credentials
+Jenkins pipeline git checkout SCM
+Conclusion
+More to explore
+Jenkins declarative Pipeline github example
+In this session, we will clone the github repository in the Jenkins pipeline script and run a bash script file to print hello world.
+
+To create a declarative pipeline in Jenkins, go to Jenkins UI and click on New item.
+
+Provide pipeline name, select Pipeline, and click on the ok button.
+
+Jenkins declarative Pipeline github
+Now go to the pipeline session, paste the code below, and click on the Save button.
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git url: 'https://github.com/naiveskill/devops.git', branch: 'main'
+                // Change file permisson
+                sh "chmod +x -R ./jenkins"
+                // Run shell script
+                sh "./jenkins/script/scripted_pipeline_ex_2.sh"
+            }
+        }
+    }
+}
+Jenkins declarative Pipeline github
+Code explanation
+
+Pipeline
+The Declarative pipeline should start with the mandatory pipeline block.
+Agent
+Agent signifies where the Jenkins build job should run. In this case, we have selected agent as any
+Stages/stage
+stages block consists of different executable stage blocks. 
+At least one stage block is mandatory inside stages block.
+In this example we have defined two stages(build and Deploy)
+Steps
+Steps blocks consists of the actual operation which needs to be performed inside jenkins.
+In this example we are naming Stage as Build
+In the next step we are cloning the git repo “https://github.com/naiveskill/devops.git”
+Once the code is successfully pulled from git, we need to change the file permission before running the script.
+Finally, we are running a shell script file scripted_pipeline_ex_2.sh which basically print out “HELLO WORLD”
+#!/bin/sh
+echo "HELLO WORLD"
+Click on the save button to save the Pipeline.
+
+Now, click on the build now button and wait for the Jenkins job to finish.
+
+Once the job runs successfully, you can view the logs by clicking on the Logs button.
+
+Jenkins declarative Pipeline github logs
+Expand the final shell script logs to see the final “HELLO WORLD” as output
+
+Jenkins declarative Pipeline github
+Jenkins pipeline github with credentials
+If the git repository is private, you pass the credentials while pulling the code from the github. The Jenkins pipeline github with credentials looks like below.
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                // Get code from a GitHub repository
+                git url: 'https://github.com/naiveskill/devops_cred.git', branch: 'main',
+                 credentialsId: 'github_creds'
+            }
+        }
+    }
+}
+To create the git credentials, follow the below steps.
+
+Jenkins github add credentials
+To create the github credentials, we need to generate the github token, which will work in place of your github password.
+
+To create a github token, log in to the github account and go to setting
+
+github generate personal token
+Now click on the developer setting
+
+github generate personal token
+Now click on personal access tokens > Generate new token.
+
+Provide necessary as per your need and click on Generate token. A token will be generated, which you can use for authenticating the github.
+
+github generate personal token
+Now go to Jenkins URL and goto credentials > global credentials and click on add credentials.
+
+Jenkins add git credentials
+Provide username and github secrets in place of password and then click on the OK button.
+
+Jenkins add git credentials
+Now Goto the Jenkins job where you have pasted the below code and click on build now.
+
+Jenkins declarative pipeline github with credentials
+The logs for the successful run will look like below
+
+Jenkins declarative pipeline github with credentials
+Jenkins pipeline git checkout SCM
+To use the SCM, you need to install the github plugin. The github plugging provides the SCM implementation, which can be used with the Pipeline SCM checkout step.
+
+With the git step, you can only perform a few basic checkouts, but more advanced operations require the checkout step rather than the git step. The checkout step is the preferred SCM checkout method due to the broad functionality it provides.
+
+Below is the example pipeline with SCM steps implemented
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+              checkout([$class: 'GitSCM', 
+                branches: [[name: '*/main']],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [[$class: 'CleanCheckout']],
+                submoduleCfg: [], 
+                userRemoteConfigs: [[url: 'https://github.com/naiveskill/devops.git']]])
+              sh "ls -ltr"
+          }
+        }
+    }
+}
+Paste the code into the pipeline block and build the pipeline. On successful RAN you will get the below output.
+
+Many customizations we can do using the GITSCM plugin. More information about the SCM plugging can be found here
+
+Jenkins pipeline scm
+Conclusion
+In this blog, we have learned how to create a Jenkins pipeline to pull code from the public and private github and run a shell script. Please do let me know if you are facing any issues while following along.
+
+More to explore
+Deploy Jenkins on Kubernetes using Jenkins operator
+
+Jenkins scripted pipeline
+
+Jenkins workflow
+
+Jenkins pipeline example hello-world
+
