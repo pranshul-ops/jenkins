@@ -3,3 +3,4 @@ RUN  apt-get update
 RUN  apt-get install -y apache2 curl net-tools wget
 RUN  echo 'Hello World' > /var/www/html/index.html
 ENTRYPOINT apachectl -D FOREGROUND
+EXPOSE 80
