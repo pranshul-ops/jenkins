@@ -33,7 +33,7 @@ pipeline {
     stage('Deploy to Kubernetes'){
         steps{
             sh 'whoami'
-            sh 'sudo -i'
+            sh 'sudo root'
             sh 'whoami'
             sh 'export KUBECONFIG=/root.kube/config'
             sh 'kubectl apply -f deployment.yml'
