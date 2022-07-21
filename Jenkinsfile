@@ -36,7 +36,7 @@ pipeline {
             sh 'su root'
             sh 'whoami'
             sh 'export KUBECONFIG=/root.kube/config'
-            sh 'kubectl apply -f deployment.yml'
+            sh 'kubectl apply -f deployment.yml -n besant123'
        }
     }
   }
