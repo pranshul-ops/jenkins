@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    registry = "myawspk/myrepo"
+    registry = "pranshul01/awsrepo"
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
@@ -9,7 +9,7 @@ pipeline {
     stage('Building Docker Image') {
       steps{
       // Get code from a GitHub repository
-      git url: 'https://github.com/myawspk/jenkins.git', branch: 'main',
+      git url: 'https://github.com/pranshul-ops/jenkins.git', branch: 'main',
       credentialsId: 'github'
 	    script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
