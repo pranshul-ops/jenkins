@@ -10,7 +10,6 @@ pipeline {
       steps{
       // Get code from a GitHub repository
       git url: 'https://github.com/pranshul-ops/jenkins.git', branch: 'main',
-      credentialsId: 'github'
 	    script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
